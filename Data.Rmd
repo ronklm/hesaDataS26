@@ -1,0 +1,476 @@
+---
+title: "Codebook: HIED 663"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE
+)
+```
+
+
+# Libraries Used
+```{r Libraries, message=FALSE, warning=FALSE}
+# These lines only need to be executed once for your machine
+# install.packages("tidyverse")  
+# install.packages("scales")
+# install.packages("stringr")
+# install.packages("ggthemes") 
+# install.packages("ggridges")
+#install.packages("gitcreds")
+
+
+# These lines need to be executed every time you load R
+library("tidyverse") 
+library("scales") 
+library("stringr") 
+library("ggthemes") 
+library("ggplot2")
+library("ggridges")
+
+df <- read.csv("~/Documents/Statistics/HESAdataF26/assessment_eval_data_final_2_3_26.csv")
+# or data path to file on personal machine
+```
+
+
+# Frequencies
+
+## Cycles
+```{r Cycles Frequency}
+# Cycles
+unique(df$CycleName)
+cycle.tb <- table(df$CycleName)
+cycle.ptb <- prop.table(cycle.tb)
+
+# Convert the proportion table to a data frame
+cycle.df <- as.data.frame(cycle.ptb)
+
+# Converting to a data frame lost the names
+names(cycle.df) <- c("CycleName", "Frequency")
+
+# Use the proportion table as the data frame in a call to ggplot()
+ggplot(data=cycle.df, mapping=aes(x=CycleName, y=Frequency)) + 
+  geom_col(fill="cyan3", alpha=0.5) +
+  scale_y_continuous(label=percent) +
+  labs(title="Application Cycle Frequencies",
+    subtitle="Percentage of individuals applying per cycle",
+    x="", y="") +
+  theme_bw() + 
+  theme(title=element_text(size=14), axis.text=element_text(size=12)) +
+  theme(panel.grid.major.x = element_blank()) +
+  geom_text(mapping=aes(x=CycleName, y=Frequency,
+                        label=percent(Frequency)), size=5, nudge_y=0.03)
+
+```
+
+## Application Status
+```{r Application Status Frequency}
+# Application Status
+unique(df$ApplicationStatus)
+app_status.tb <- table(df$ApplicationStatus)
+app_status.ptb <- prop.table(app_status.tb)
+
+# Convert the proportion table to a data frame
+app_status.df <- as.data.frame(app_status.ptb)
+
+# Converting to a data frame lost the names
+names(app_status.df) <- c("ApplicationStatus", "Frequency")
+
+# Use the proportion table as the data frame in a call to ggplot()
+ggplot(data=app_status.df, mapping=aes(x=ApplicationStatus, y=Frequency)) + 
+  geom_col(fill="cyan3", alpha=0.5) +
+  scale_y_continuous(label=percent) +
+  labs(title="Application Status Frequencies",
+    subtitle="Percentage of status conditions of applications",
+    x="", y="") +
+  theme_bw() + 
+  theme(title=element_text(size=14), axis.text=element_text(size=12)) +
+  theme(panel.grid.major.x = element_blank()) +
+  geom_text(mapping=aes(x=ApplicationStatus, y=Frequency,
+                        label=percent(Frequency)), size=5, nudge_y=0.03)
+
+
+```
+
+## Decision
+```{r Decision Frequency}
+# Decisions
+unique(df$DecisionCode)
+decision.tb <- table(df$DecisionCode)
+decision.ptb <- prop.table(decision.tb)
+
+# Convert the proportion table to a data frame
+decision.df <- as.data.frame(decision.ptb)
+
+# Converting to a data frame lost the names
+names(decision.df) <- c("DecisionStatus", "Frequency")
+
+# Use the proportion table as the data frame in a call to ggplot()
+ggplot(data=decision.df, mapping=aes(x=DecisionStatus, y=Frequency)) + 
+  geom_col(fill="cyan3", alpha=0.5) +
+  coord_flip() +
+  scale_y_continuous(label=percent, limits = c(0,.45)) +
+  labs(title="Application Decision Frequencies",
+    subtitle="Percentage of decisions made by applicants",
+    x="", y="") +
+  theme_bw() + 
+  theme(title=element_text(size=14), axis.text=element_text(size=12)) +
+  theme(panel.grid.major.x = element_blank()) +
+  geom_text(mapping=aes(x=DecisionStatus, y=Frequency,
+                        label=percent(Frequency)), size=5,, nudge_y=0.04)
+
+```
+
+## Ethnicity/Race
+```{r Ethnicity/Race Frequency}
+# Ethnicity 
+unique(df$EthnicityandRace)
+ethnicity.tb <- table(df$EthnicityandRace)
+ethnicity.ptb <- prop.table(ethnicity.tb)
+
+# Convert the proportion table to a data frame
+ethnicity.df <- as.data.frame(ethnicity.ptb)
+
+# Converting to a data frame lost the names
+names(ethnicity.df) <- c("EthnicityandRace", "Frequency")
+
+# Use the proportion table as the data frame in a call to ggplot()
+ggplot(data=ethnicity.df, mapping=aes(x=EthnicityandRace, y=Frequency)) + 
+  geom_col(fill="cyan3", alpha=0.5) +
+  scale_x_discrete(labels = label_wrap(10)) +
+  scale_y_continuous(label=percent, limits=c(0,.5)) +
+  labs(title="Applicant Ethnicity/Race Frequencies",
+    subtitle="Percentage of applicants by recorded ethnicity and race",
+    x="", y="") +
+  theme_bw() + 
+  theme(title=element_text(size=14), axis.text=element_text(size=12) ) +
+  theme(panel.grid.major.x = element_blank()) +
+  geom_text(mapping=aes(x=EthnicityandRace, y=Frequency,
+                        label=percent(Frequency)), size=5, nudge_y=0.03)
+
+```
+
+## Citizenship Status
+```{r Citizenship Status Frequency}
+# Citizenship Status
+unique(df$CitizenshipStatus)
+citizenship.tb <- table(df$CitizenshipStatus)
+citizenship.ptb <- prop.table(citizenship.tb)
+
+# Convert the proportion table to a data frame
+citizenship.df <- as.data.frame(citizenship.ptb)
+
+# Converting to a data frame lost the names
+names(citizenship.df) <- c("CitizenshipStatus", "Frequency")
+
+# Use the proportion table as the data frame in a call to ggplot()
+ggplot(data=citizenship.df, mapping=aes(x=CitizenshipStatus, y=Frequency)) + 
+  geom_col(fill="cyan3", alpha=0.5) +
+  scale_x_discrete(labels = label_wrap(10)) +
+  scale_y_continuous(label=percent, limits=c(0,.6)) +
+  labs(title="Applicant Citizenship Status Frequencies",
+    subtitle="Percentage of applicants by recorded citizenship status",
+    x="", y="") +
+  theme_bw() + 
+  theme(title=element_text(size=14), axis.text=element_text(size=12) ) +
+  theme(panel.grid.major.x = element_blank()) +
+  geom_text(mapping=aes(x=CitizenshipStatus, y=Frequency,
+                        label=percent(Frequency)), size=5, nudge_y=0.03)
+
+
+```
+
+## Start Terms
+```{r Start Term Frequency}
+# Academic Start Term
+unique(df$StartTerm)
+term_start.tb <- table(df$StartTerm)
+term_start.ptb <- prop.table(term_start.tb)
+
+# Convert the proportion table to a data frame
+term_start.df <- as.data.frame(term_start.ptb)
+
+# Converting to a data frame lost the names
+names(term_start.df) <- c("StartTerm", "Frequency")
+
+# Use the proportion table as the data frame in a call to ggplot()
+ggplot(data=term_start.df, mapping=aes(x=StartTerm, y=Frequency)) + 
+  geom_col(fill="cyan3", alpha=0.5) +
+  scale_x_discrete(labels = label_wrap(10)) +
+  scale_y_continuous(label=percent, limits=c(0,.3)) +
+  labs(title="Applicant Start Term Frequencies",
+    subtitle="Percentage of start term by application",
+    x="", y="") +
+  theme_bw() + 
+  theme(title=element_text(size=14), axis.text=element_text(size=12) ) +
+  theme(panel.grid.major.x = element_blank()) +
+  geom_text(mapping=aes(x=StartTerm, y=Frequency,
+                        label=percent(Frequency)), size=5, nudge_y=0.03)
+```
+
+## Top and Bottom 10% of Program's Applied For
+```{r Program Name Frequency by Top/Bottom 10 Percentages}
+# Program Name 
+# Because there were 89 individual program types, I forwent doing unique/table printing because it took up A LOT of terminal space
+#So this is the cleanest way to present the 10 highest and lowest programs chosen
+prog_name.tb <- table(df$ProgramName)
+prog_name.ptb <- prop.table(prog_name.tb)
+prog_name.df <- as.data.frame(prog_name.ptb)
+names(prog_name.df) <- c("ProgramName", "Frequency")
+prog_name_head.df <- prog_name.df %>%
+  arrange(desc(Frequency)) %>%
+  head(n=10)
+
+
+ggplot(data = prog_name_head.df, mapping=aes(x=ProgramName, y=Frequency)) + 
+  geom_col(fill="cyan3", alpha=0.5) +
+  coord_flip() +
+  scale_x_discrete(labels = label_wrap(25)) +
+  scale_y_continuous(label=percent, limits=c(0,.5)) +
+  labs(title="Applicant Program Selection Frequencies",
+    subtitle="Percentage of top 10 programs applied to", 
+    x="", y="") +
+  theme_bw() + 
+   theme(title=element_text(size=14), axis.text=element_text(size=9), 
+        axis.text.y = element_text(hjust =1, margin = margin(t = 10, r = 10, b = 10, l= 10, unit = "pt")) ) +
+  theme(panel.grid.major.x = element_blank()) +
+  geom_text(mapping=aes(x=ProgramName, y=Frequency,
+                        label=percent(Frequency)), size=2.75, nudge_y=0.03)
+
+prog_name_tail.df <- prog_name.df%>%
+  arrange(desc(Frequency)) %>%
+  tail(n=10)
+
+ggplot(data = prog_name_tail.df, mapping=aes(x=ProgramName, y=Frequency)) + 
+  geom_col(fill="cyan3", alpha=0.5) +
+  coord_flip() +
+  scale_x_discrete(labels = label_wrap(25)) +
+  scale_y_continuous(label=percent, limits=c(0,.0006)) +
+  labs(title="Applicant Program Selection Frequencies",
+    subtitle="Percentage of 10 lowest programs applied for by applicants", 
+    x="", y="") +
+  theme_bw() + 
+   theme(title=element_text(size=14), axis.text=element_text(size=9), 
+        axis.text.y = element_text(hjust =1, margin = margin(t = 10, r = 10, b = 10, l= 10, unit = "pt")) ) +
+  theme(panel.grid.major.x = element_blank()) +
+  geom_text(mapping=aes(x=ProgramName, y=Frequency,
+                        label=percent(Frequency)), size=2.75, nudge_y=0.0001
+            )
+```
+
+## Degree Types
+```{r Degree Type Frequency}
+# Degree Type
+unique(df$DegreeType)
+degree_type.tb <- table(df$DegreeType)
+degree_type.ptb <- prop.table(degree_type.tb)
+
+# Convert the proportion table to a data frame
+degree_type.df <- as.data.frame(degree_type.ptb)
+
+# Converting to a data frame lost the names
+names(degree_type.df) <- c("DegreeType", "Frequency")
+
+# Use the proportion table as the data frame in a call to ggplot()
+ggplot(data=degree_type.df, mapping=aes(x=DegreeType, y=Frequency)) + 
+  geom_col(fill="cyan3", alpha=0.5) +
+  scale_x_discrete(labels = label_wrap(10)) +
+  scale_y_continuous(label=percent, limits=c(0,.6)) +
+  labs(title="Applicant Degree Type Frequencies",
+    subtitle="Percentage of degree type being sought by applicants",
+    x="", y="") +
+  theme_bw() + 
+  theme(title=element_text(size=14), axis.text=element_text(size=9), 
+        axis.text.x = element_text(angle = 45, hjust =1, margin = margin( l = 10, r = 10, t = 10, unit = "pt")) ) +
+  theme(panel.grid.major.x = element_blank()) +
+  geom_text(mapping=aes(x=DegreeType, y=Frequency,
+                        label=percent(Frequency)), size=2.75, nudge_y=0.03)
+
+
+```
+
+## Program Delivery
+```{r Program Delivery Frequency}
+# Program Delivery
+unique(df$ProgramDelivery)
+prog_delivery.tb <- table(df$ProgramDelivery)
+prog_delivery.ptb <- prop.table(prog_delivery.tb)
+
+# Convert the proportion table to a data frame
+prog_delivery.df <- as.data.frame(prog_delivery.ptb)
+
+# Converting to a data frame lost the names
+names(prog_delivery.df) <- c("ProgramDelivery", "Frequency")
+
+# Use the proportion table as the data frame in a call to ggplot()
+ggplot(data=prog_delivery.df, mapping=aes(x=ProgramDelivery, y=Frequency)) + 
+  geom_col(fill="cyan3", alpha=0.5) +
+  scale_x_discrete(labels = label_wrap(10)) +
+  scale_y_continuous(label=percent, limits=c(0,.5)) +
+  labs(title="Applicant Program Delivery Frequencies",
+    subtitle="Percentage of program delivery types offered", # needs rewording, cause I'm not sure how to label this without accidental correlation verbage
+    x="", y="") +
+  theme_bw() + 
+  theme(title=element_text(size=14), axis.text=element_text(size=12)) +
+  theme(panel.grid.major.x = element_blank()) +
+  geom_text(mapping=aes(x=ProgramDelivery, y=Frequency,
+                        label=percent(Frequency)), size=5, nudge_y=0.03)
+
+
+
+
+```
+
+## Colleges of Programs Applied For
+```{r College Frequency}
+# College 
+unique(df$College)
+college.tb <- table(df$College)
+college.ptb <- prop.table(college.tb)
+
+# Convert the proportion table to a data frame
+college.df <- as.data.frame(college.ptb)
+
+# Converting to a data frame lost the names
+names(college.df) <- c("College", "Frequency")
+
+# Use the proportion table as the data frame in a call to ggplot()
+ggplot(data=college.df, mapping=aes(x=College, y=Frequency)) + 
+  geom_col(fill="cyan3", alpha=0.5) +
+  scale_x_discrete(labels = label_wrap(10)) +
+  scale_y_continuous(label=percent, limits=c(0,.45)) +
+  labs(title="Applicant Program College Frequencies",
+    subtitle="Percentage of program colleges applied to", 
+    x="", y="") +
+  theme_bw() + 
+  theme(title=element_text(size=14), axis.text=element_text(size=12)) +
+  theme(panel.grid.major.x = element_blank()) +
+  geom_text(mapping=aes(x=College, y=Frequency,
+                        label=percent(Frequency)), size=5, nudge_y=0.03)
+```
+
+
+# Mean, Standard Deviation
+
+```{r Age Mean and Standard Deviation}
+ageM <- mean(df$Age)
+ageM
+
+ageSD <- sd(df$Age)
+ageSD
+```
+
+```{r Time Mean and Standard Deviation}
+
+timeM <- mean(df$time, na.rm = TRUE)
+timeM
+
+timeSD <- sd(df$time, na.rm = TRUE)
+timeSD
+```
+# Crosstabs
+
+## Ethnicity and Age
+```{r Ethnicity and Age}
+
+ggplot(df, aes(x = Age)) +
+  geom_density(fill = "cyan3", alpha = 0.5) +
+  facet_wrap(~ EthnicityandRace) +
+  labs(
+    title = "Age by Ethnicity Density Facets",
+    x = "Age",
+    y = "Density",
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    strip.text = element_text(size = 8, lineheight = 0.9),
+    strip.background = element_rect(fill = "grey90"),
+    plot.margin = margin(t = 10, r = 10, b = 30, l = 10)
+  )
+
+```
+
+
+## Time and Ethnicity
+```{r Time and Ethnicity}
+df_clean <- df |>
+  filter(!is.na(time), !is.na(EthnicityandRace))
+
+ggplot(df_clean, aes(x = EthnicityandRace, y = time)) +
+  geom_violin(fill = "cyan3", alpha = 0.6, na.rm = TRUE) +
+  geom_boxplot(width = 0.15, outlier.alpha = 0.3, na.rm = TRUE) +
+  scale_y_continuous(
+    trans = "log1p",
+    breaks = c(0, 1, 5, 10, 20, 50, 100, 200, 400),
+    labels = c("0", "1", "5", "10", "20", "50", "100", "200", "400")) +
+  coord_flip() +
+  theme_minimal(base_size = 14)
+
+
+
+```
+
+## Age and Ethnicity
+```{r Age and Ethnicity}
+
+ggplot(df, aes(x = Age, y = EthnicityandRace, fill = EthnicityandRace)) +
+  geom_density_ridges(alpha = 0.7, scale = 1.2) +
+  labs(
+    title = "Ethnicity Density Across Age",
+    x = "Age",
+    y = "Ethnicity"
+  ) +
+  theme_ridges() +
+  theme(legend.position = "none")
+
+
+
+```
+
+## Ethnicity and Program delivery
+```{r Ethnicity and Program delivery}
+
+ggplot(df, aes(x = EthnicityandRace, fill = ProgramDelivery)) +
+  geom_bar(position = "fill") +
+  scale_x_discrete(labels = label_wrap(10)) +
+  scale_fill_discrete(labels = function(x) str_wrap(x, width = 20)) +
+  labs(
+    title = "Program Delivery Type Distribution Within Each Ethnicity",
+    x = "Ethnicity",
+    y = "Proportion"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme_bw() + 
+  theme(title=element_text(size=14), axis.text=element_text(size=10)) +
+  theme(panel.grid.major.x = element_blank()) +
+  theme(
+    legend.text = element_text(size = 8),
+    legend.title = element_text(size = 9),
+    legend.key.size = unit(0.4, "lines")
+  )
+
+
+```
+
+## Age and Program Delivery
+```{r Age and Program Delivery}
+
+ggplot(df, aes(x = Age, y = ProgramDelivery, fill = ProgramDelivery)) +
+  geom_density_ridges(alpha = 0.7, scale = 1.2) +
+  labs(
+    title = "Age Density by Program Delivery Type",
+    x = "Age",
+    y = "Program Delivery Type" ) +
+  theme_ridges() +
+  theme(legend.position = "none")
+
+
+```
+
