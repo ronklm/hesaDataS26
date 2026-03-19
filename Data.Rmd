@@ -16,7 +16,6 @@ knitr::opts_chunk$set(
 ```
 
 
-# Libraries Used
 ```{r Libraries, message=FALSE, warning=FALSE}
 # These lines only need to be executed once for your machine
 # install.packages("tidyverse")  
