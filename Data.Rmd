@@ -358,7 +358,7 @@ ggplot(data=college.df, mapping=aes(x=College, y=Frequency)) +
 
 # Mean, Standard Deviation
 
-```{r Age Mean and Standard Deviation}
+```{r Age Mean and Standard Deviation, echo=TRUE}
 ageM <- mean(df$Age)
 ageM
 
@@ -366,7 +366,7 @@ ageSD <- sd(df$Age)
 ageSD
 ```
 
-```{r Time Mean and Standard Deviation}
+```{r Time Mean and Standard Deviation, echo=TRUE}
 
 timeM <- mean(df$time, na.rm = TRUE)
 timeM

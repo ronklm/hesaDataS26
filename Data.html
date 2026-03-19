@@ -1564,9 +1564,17 @@ border-radius: 0px;
 </div>
 <div id="mean-standard-deviation" class="section level1">
 <h1>Mean, Standard Deviation</h1>
+<pre class="r"><code>ageM &lt;- mean(df$Age)
+ageM</code></pre>
 <pre><code>## [1] 29.34264</code></pre>
+<pre class="r"><code>ageSD &lt;- sd(df$Age)
+ageSD</code></pre>
 <pre><code>## [1] 8.836029</code></pre>
+<pre class="r"><code>timeM &lt;- mean(df$time, na.rm = TRUE)
+timeM</code></pre>
 <pre><code>## [1] 9.249146</code></pre>
+<pre class="r"><code>timeSD &lt;- sd(df$time, na.rm = TRUE)
+timeSD</code></pre>
 <pre><code>## [1] 35.4497</code></pre>
 </div>
 <div id="crosstabs" class="section level1">
